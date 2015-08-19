@@ -1,6 +1,6 @@
 ## An Open-source Voice Command Interface Kit  
 
-The OpenVCIK is an open-source platform for developing voice based control applications such as robot control, device control, and home automation. The OpenVCIK software comprises of a framework - OpenVCIK Framework, and a library - OpenVCIKServices, all written in C++. These allow the usage of OpenVCIK for developing voice based control applications very easy and effortless. 
+The OpenVCIK is an open-source platform for developing voice based control applications such as robot control, device control, and home automation. The OpenVCIK software comprises of a framework - <b><i> OpenVCIK Framework </b></i>, and a library - <b><i>  OpenVCIKServices </b></i>, all written in C++. These allow the usage of OpenVCIK for developing voice based control applications very easy and effortless. 
 
 
 ## Contact
