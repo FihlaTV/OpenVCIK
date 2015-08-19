@@ -9,5 +9,8 @@ The project's core team comprises of Junaid Ahmed Ansari (ansariahmedjunaid@gmai
 ## License
 The OpenVCIK is covered under the GPL V2 license... To Update....
 
+  
+  
+<i> Note: The license only pertains to the OpenVCIK framework and library and not other software packages which are uses such as Pocketsphinx and Cubiuntu disk image for Cubieboard. </i>
 
 ### .... Under construction
