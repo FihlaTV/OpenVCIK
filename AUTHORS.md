@@ -1,4 +1,4 @@
-###### The Project OpenVCIK core developers are:
+###### The Project OpenVCIK's core developers are:
 
 <b>Junaid Ahmed Ansari</b> 
 ```
