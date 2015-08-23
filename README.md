@@ -7,7 +7,7 @@ The OpenVCIK is an open-source platform for developing voice based control appli
 The project's core team members are: Junaid Ahmed Ansari (ansariahmedjunaid@gmail.com, github: junaidcs032), Arasi Sathyamurthi (arasi@rri.res.in) and Prof. Ramesh Balasubramanyam (ramesh@rri.res.in). All the members can be reached by their respective emails for queries. However, for quereies specific to codes and bugs, please contact Junaid; Junaid will be maintaining this repository.
 
 ## License
-<i>Copyright (C) 2015-2016, Raman Research Insitute, Bangalore, India. All rights resereverd.</i>
+<i>Copyright (c) 2015-2016, Raman Research Insitute, Bangalore, India. All rights resereverd.</i>
 
 The OpenVCIK is covered under the GPL license. According to this licenese, you can use, modify or redistribute the code provided the conditions posed by the GPL for redistribution is met and you don't <b>HOLD US LIABLE</b> i.e. this code is open-sourced <b>WITHOUT ANY WARRANTY</b>. 
 
