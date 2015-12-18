@@ -1,0 +1,85 @@
+INFO
+====
+This class implements reading and writing to/from serial ports with most common settings. 
+It allows : setting of the BAUD RATE for INPUT and OUTPUT
+            setting VMIN and VTIME parameters which are very important and crucial in case of NONCANONICAL operation
+
+
+
+NAMESPACE
+=========
+
+OpenVCIK
+
+
+CLASS
+=====
+
+SerialComm
+
+
+PUBLIC MEMBER FUNCTIONS
+=======================
+
+Constructor - initiallizes variables 
+Arguement : (Type:string) - fname (serial port name)
+
+SerialComm(string fname) 
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Destructor - closes the serial port
+
+~SerialComm()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Opens the serial port provided in the constuctor
+Returns: (Type: Integer) -   0  - Successful
+						 -  -1 - could'nt open the serial port
+						 -  -2 - file openend but can't get the attribs
+int openPort()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Sets serial port parameters
+
+Arguements: (Type : speed_t) - in    (input speed i.e. baudrate)
+							 - out   (output speed)
+			(Type : Integer) - vmin  (minimum characters to wait before read call exits) in units of 10ms)
+							 - vtime (minimum time to wait for each character) 				 
+
+Returns: (Type: Integer) -  -1  if tcgetattr()  failed 
+						    -2  if cfsetispeed() failed 
+						 	-3  if cfsetospeed() failed 
+							-4  if tcsetattr() failed 
+
+int SerialComm::setupPortParameters(speed_t in, speed_t out, int vmin, int vtime)
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Write to serial port
+Arguement : (Type: string) - the string to be written
+Returns : (Type: Integer) - number of bytes written and returns -1 if something wrong
+
+int SerialComm::writePort(string buf)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Read bytes from the serial port
+Arguements: (Type: string)  - buff - pointer to the string where the read bytes will be stored
+			(Type: integer) - size - how many bytes to be read (Default : 1)
+Returns: (Type: Intger) - number of bytes read from the buffer; -1 either nothing read or pointer passed was NULL
+
+int SerialComm::readPort(string *buf, int size)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Flushes the input and output buffer
+
+bool SerialComm::flushPortIO()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+

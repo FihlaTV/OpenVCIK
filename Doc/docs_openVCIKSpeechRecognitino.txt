@@ -1,0 +1,60 @@
+INFO
+======
+
+
+ This (openVCIKSpeechRecognition.cpp) is a module which is used in the OpenVCIKServices.cpp i.e. the Service Layer for speech recogntion
+ using the Pocketsphinx Library. This module defines APIs so that it is not only used in the OpenVCIKServices.cpp, but that can be 
+ used in any other program by just including this file and calling such APIs which internally call the Poccketsphinx APIs. 
+ 
+ Note: This program is a modified version of hte continuous.c example available in the pocketsphinx's Github page.
+
+
+NAMESPACE
+===========
+
+OpenVCIK
+
+
+
+PUBLIC FUNCTIONS
+==================
+
+
+
+Setups the speech recognition by looking for MIC, then Initiallizing VAD (voice activity detection) and then CALIBRATING the VAD
+Returns : (Type: Integer)  0 - Successful
+    					  -1 - MIC NOF FOUND
+		         		  -2 - VAD NOT INITIALLIZED
+		         		  -3 - FAILED RECORDING            
+		         		  -4 - VAD COULD NOT BE CALIBRARTED      
+
+int setupMic()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Speech command recognition function. Uses number of speech samples processed as a threshold to stop listening and start final decoding of 
+the speech signal i.e. final hypothesis generation
+Arguement: (Type: string) - the string variable which is loaded with the recognized command
+
+static void recognize_from_microphone(string* s)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Closes the speech sample reading session
+
+void closeRecording()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Initiallizes pocketsphinx 
+
+Arguements : hmm  (type: string) - the absolute path of the hidden markov model folder for the language
+             lm (type: string)   - the absolute path of the language model file for the language (.lm)
+             dict (type: string)   - the absolute path dictionary file for the language (.dict)
+
+Returns: (Type:Intger) -1 - CONFIG ERROR
+        			   -2 - INIT ERROR
+
+int initSpeechRecog(string hmm, string lm, string dict)
+
+--------------------------------------------------------------------------------------------------------------------------------------------

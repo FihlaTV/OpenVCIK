@@ -1,0 +1,97 @@
+### Description
+This class implements a circular queue using dynamically allocated arrays. It has its own Mutex and Locking Mechanism for concurrent access by two threads. (Note: Not yet tested with more than two threads)
+
+
+### Namespace
+
+```C++
+OpenVCIK
+```
+
+
+### Class
+
+```C++
+dataQueue 
+```
+
+### Public member functions
+
+```C++
+dataQueue::dataQueue(int size)
+```
+Contsructor - initiallizes the variables and allocates space for the queue.    
+<b> Arguments: </b>  
+* size (Type:```Integer```) - Size of the queue (Default size is 10)  
+
+<b> Throws: </b> (Type - ```Integer```) - 1 if bad allocation exception was resulted in allocating the queue
+
+----
+
+```C++
+~dataQueue()
+```
+Destructor - releases the memory allocated. The Application Programmer need not worry about it.
+
+-----
+
+```C++
+inline int dataQueue::getFront()
+```
+
+<b> Returns: </b> the current Front Position (Type: ```Integer```) of the queue. Can be used for debugging
+
+----
+
+```C++
+inline int dataQueue::getRear();
+```
+<b> Returns: </b> the current Rear Position (Type: ```Integer```) of the queue. Can be used for debugging
+
+
+----
+
+```C++
+inline int dataQueue::getSize()
+```
+
+<b> Returns: </b> the allocated size (Type: ```Integer```) of the queue
+
+
+-----
+
+```C++
+inline int dataQueue::getQueueSize()
+```
+<b> Returns: </b> the actual size (Type: ```Integer```) of the queue at the point of this function call
+
+----
+
+```C++
+int dataQueue::put(string data)
+```
+
+Puts the data in queue; If the queue is found to be full it is automatically cleared. 
+
+<b> Argument: </b>  
+* data (Type: ```string```) - the string to be put  
+
+<b> Returns: </b> (Type: ```Integer```) ```0```  - if successful; ```-1```  - If out of bound (this will never happen. Just for safety)  
+ 
+----
+
+```C++
+string dataQueue::get(int  current)
+```
+Gets data from the queue.  
+<b> Arguments: </b>  
+* current (Type: ```Integer```) - ```0``` to return data in a circular queue get fashion;                					```1``` to return the current data and not effect the queue. Default - ```0```.
+
+<b> Returns: </b> (Type: ```string```) data from the queue if data available else ```\0``` if queue empty
+
+----
+```C++
+void dataQueue::clear()
+```
+
+Clears the queue.

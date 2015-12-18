@@ -1,0 +1,369 @@
+INFO
+======
+
+This class implements the openVCIKServices Library APIs which are used to avail all the services, queues, sensor data
+by the applications built on/for the OpenVCIK
+
+
+NAMESPACE
+=========
+
+OpenVCIK
+
+
+Class
+=========
+
+Services
+
+ 
+PUBLIC FUNCTIONS
+=================
+
+
+
+ Constructor - initiallizes all the sensor strucutures and sets up the framework requirements
+
+ Arguements : port  - Serial port Mega is connected to
+              speed - speed of communication (B9600, ... )    
+              sonarQueueSize - size of Sonar sensor queue
+              compassQueueSize - size of the Compass sensor queue
+              chargeQueueSize - size of the Charge sensing queue
+              speechQueueSize - speech Queue size
+              hmm - absolute path for : hidden markov model folder for speech recognition 
+              lm - absolute path for : language model file (.lm)
+              dict - absolute : dictionary file (.dic)
+
+Throws:   Intger
+
+          Code          Meaning
+          ----------------------------------------
+            1.  SERIAL PORT NOT AVAILABLE
+            2.  PROBLEM ACQUIRING PORT PARAMETERS
+            3.  PROBLEM SETTING UP PORT PARAMETERS
+            4.  SONAR BAD ALLOCATION
+            5.  COMPASS QUEUEU BAD ALLOCATION
+            6.  CHARGE QUEUE BAD ALLOCATION
+            7.  SPHINX CONFIG ERROR
+            8.  SPHINX INIT ERROR
+            9.  MIC NOT FOUND
+            10. VAD NOT INITIALLIZED
+            11. FAILED RECORDING
+            12. VAD COULD NOT BE CALIBERATED\0" 
+
+
+Service::Services(string port, 
+	               speed_t speed, 
+            	   int sonarQueueSize, 
+            	   int compassQueueSize, 
+            	   int chargeQueueSize, 
+            	   int speechQueueSize, 
+            	   string hmm, 
+            	   string lm, 
+            	   string dict                 
+	             );
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Destructor -  release all the allocated memory and resources. The Application Programmer need not worry about it.
+
+Services::~Services()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Starts all Speech Recognition and Communication Service. It also syncs the timestamp of the Host with Mega using the timeStampSync() function
+Note: One should always put the constructor in the try block and if all good then they shouls start the services
+
+void Services::startServices()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+It syncs the Host timestamp with the Mega Timstamp with very minor offset
+
+Arguement : findSyncTime : True (default): then sends a set of sync time find character and calculates the send time
+                            which is then used as the offset from the current time;
+
+                         : False: does not calculate the send time; it justs inits the timestamp to 0
+
+  Note: This function sleeps for 100 ms just to give some time for Comm Service's comm activities
+        i.e. the Communication Service will start after 100 ms 
+
+
+void Services::timestampSync(bool findSyncTime)
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Returns the number of entries in the Sonar Queue; Returns -1 if the queue not initiallized
+
+inline int Services::getSonarQueueSize()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Returns the number of entries in the Compass Queue; Returns -1 if the queue not initiallized
+
+inline int Services::getCompassQueueSize()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Returns the number of entries in the Charge Queue; Returns -1 if the queue not initiallized
+
+inline int Services::getChargeQueueSize()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Returns the number of entries in the Speech command Queue; Returns -1 if the queue not initiallized
+
+inline int Services::getSpeechQueueSize()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+clear the Sonar Queue
+
+void Services::clearSonarQueue()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+clear the Compass Queue
+
+void Services::clearCompassQueue()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+clear the Charge Queue
+
+void Services::clearChargeQueue()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+clear the Speech Command Queue
+
+void Services::clearCompassQueue()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+send command to the Mega
+Arguement : (Type : string) - command to be sent
+
+void Services::sendCommand(string)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Computes current timestamp and prints the timestamp on the CERR depending upon the arguement
+Arguement:(Type: Integer)   - 0 - dont print; 1- print  
+Returns : (Type: OpenVCIK::timestamp) - current timestamp 
+
+timestamp Services::computeTimeStamp(int print)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Retunrs the current system time
+Returns: (Type: OpenVCIK::timestamp) - current system time 
+
+inline timestamp Services::getSystemTime()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Gets the Sonar Data from Sonar Sensor Queue and parses the data into a two element chargeReading strucuture 
+containing charge reading and timestamp. 
+
+Returns type : OpenVCIK::sonarReading
+
+Arguement: current - 0 - return the data from the current queue position
+                     1 - return the most recent data but donot effect the Queue
+                     
+const compassReading* Services::getSonarData(int current = 0)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Gets the Charge Data from Charge Sensor Queue and parses the data into a two element chargeReading strucuture 
+containing charge reading and timestamp. 
+
+Returns type : OpenVCIK::chrageReading
+
+Arguement: current - 0 - return the data from the current queue position
+                     1 - return the most recent data but donot effect the Queue
+
+const chargeReading* Services::getChargeData(int current = 0)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Gets the Compass Data from Compass Sensor Queue and parses the data into a two element chargeReading strucuture 
+containing charge reading and timestamp. 
+
+Returns type : OpenVCIK::compassReading 
+
+Arguement: current - 0 - return the data from the current queue position
+                     1 - return the most recent data but donot effect the Queue
+                     
+const compassReading* Services::getCompassData(int current = 0)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Speaks the passed text in detached thread using the Text-to-speech service which uses Flite TTS service
+Arguement Type : string
+
+void Services::speakThreadDetachable(string text)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Gets the Speech Command Data Speech Queue and returns it
+
+Arguement: current - 0 - return the data from the current queue position
+                     1 - return the most recent data but donot effect the Queue
+
+Return type : string - (speech command)
+
+string Services::getSpeechCommand(int current = 0){
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+PRIVATE FUNCTIONS
+=================
+
+
+
+This function runs in a SEPERATE THREAD - Communication Service Thread. It performs two tasks:
+   1. Read sensor data sent from the HAL(Mega) and puts them into their corresponding Queue 
+   2. Send command to the HAL (Mega)
+
+void Services::commServiceThread()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+This function runs in an indpendent thread and does speech recogntion - this is termed as the Speech Recogntion Service in the Architecture
+
+void Services::speechRecognitionServiceThread(){
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+This function runs in a detached thread for speaking using the Flite TTS command line command
+Note: future we will use the Flite TTS APIs for more flexibility
+
+Arguement : (type: string) - the text to be spoken)
+
+void Services::speakThreadDetachable(string text)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Sets up pocketsphinx for speech recogniton:
+
+Arguements : hmm  (type: string) - the absolute path of the hidden markov model folder for the language
+             lm (type: string)   - the absolute path of the language model file for the language (.lm)
+             dict (type: string)   - the absolute path dictionary file for the language (.dict)
+Note that the below error codes are appended above 6 when they are used in construcutor (see constructor)
+
+Returns Type: Integer
+
+        Code      Meaning
+       --------------------------------------------------------------- 
+         -1  - CONFIG ERROR
+         -2  - INIT ERROR
+         -3  - MIC NOF FOUND
+         -4  - VAD NOT INITIALLIZED
+         -5  - FAILED RECORDING            
+         -6  - VAD COULD NOT BE CALIBRARTED 
+         -7  - BAD ALLOC FOR QUEUE ALLOCATION RELATED TO SPEECH DATA
+
+
+
+int Services::setupSpeechRecognition(string hmm, 
+                                     string lm, 
+                                     string dict, 
+                                     int speechQueueSize
+                                    )
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Starts the speech recognition service thread
+
+void Services::startSpeechRecognitionThread()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+STRUCTURES AND ENUMS
+========================
+
+Below are the structures to hold data related to specific sensors: 
+   1. sonarReading - ultrasonic proximity sensors (sonars)
+   2. compassReading - digital I2C based compass sensor
+   3. chargeReading - sensing the battery's charge  
+ 
+ 
+typedef struct sonarReading{
+
+      int reading[8];         // in CM
+      int timestamp[4];       // in hh : mm : ss : ms format from 0 - 3 respectively
+
+};
+
+typedef struct compassReading{
+
+      int reading;            // in degrees  
+      int timestamp[4];       // in hh : mm : ss : ms format from 0 - 3 respectively
+
+};
+
+typedef struct chargeReading{
+
+      int reading;            // in percentage           
+      int timestamp[4];       // in hh : mm : ss : ms format from 0 - 3 respectively
+
+};
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Timestamp structure - currently not used in sensor data 
+
+
+typedef struct timestamp{
+
+  int hr;
+  int min;
+  int sec;
+  int ms;
+
+  // prints the timestamp - no end line in the print
+  void print(){
+      cerr<< hr <<":" << min << ":" << sec << ":" <<ms;
+  }
+
+  // returns timestamp as HH:MM:SS:MS 
+  string getAsString(){
+      string ts;
+      ts = "";
+      ts = ts + to_string(hr)  +":";
+      ts = ts + to_string(min) +":";
+      ts = ts + to_string(sec) +":";
+      ts = ts + to_string(ms); 
+      return ts;
+  }
+};
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Structure with two byte mask characters for masking sensors and other functionalities such as PID control or sensor data sending, etc
+Note: Change: byteMask was previously called sensorMask
+
+typedef struct byteMask{
+
+      unsigned char mask1;
+      unsigned char mask2; 
+};
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+enum sensorType{ SONAR, COMPASS, CHARGE};
+
+--------------------------------------------------------------------------------------------------------------------------------------------

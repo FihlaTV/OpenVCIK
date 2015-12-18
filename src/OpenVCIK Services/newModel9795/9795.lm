@@ -1,0 +1,125 @@
+Language model created by QuickLM on Fri Dec 19 01:01:26 EST 2014
+Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
+
+The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
+
+The code that was used to produce this language model is available in Open Source.
+Please visit http://www.speech.cs.cmu.edu/tools/ for more information
+
+The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
+This model based on a corpus of 24 sentences and 27 words
+
+\data\
+ngram 1=27
+ngram 2=49
+ngram 3=26
+
+\1-grams:
+-0.7901 </s> -0.3010
+-0.7901 <s> -0.2207
+-2.1703 BACKWARD -0.2242
+-2.1703 BEGIN -0.2242
+-2.1703 BEHIND -0.2242
+-2.1703 BUZZER -0.2242
+-2.1703 DISABLE -0.2242
+-1.8692 DOWN -0.2242
+-2.1703 ENABLE -0.2242
+-2.1703 EXECUTE -0.2242
+-2.1703 FORWARD -0.2242
+-2.1703 FRONT -0.2242
+-2.1703 GO -0.2951
+-2.1703 HALT -0.2242
+-2.1703 KLEPTO -0.2242
+-2.1703 LAFTO -0.2242
+-2.1703 LEAVO -0.2242
+-2.1703 LIFT -0.2981
+-2.1703 NEXT -0.2242
+-2.1703 RECORD -0.2242
+-2.1703 REVERSE -0.2242
+-2.1703 RIGHT -0.2242
+-2.1703 SHARP -0.2242
+-2.1703 SPEED -0.2242
+-2.1703 STOP -0.2242
+-2.1703 STRAIGHT -0.2242
+-2.1703 UP -0.2242
+
+\2-grams:
+-1.6812 <s> BACKWARD 0.0000
+-1.6812 <s> BEGIN 0.0000
+-1.6812 <s> BEHIND 0.0000
+-1.6812 <s> BUZZER 0.0000
+-1.6812 <s> DISABLE 0.0000
+-1.6812 <s> DOWN 0.0000
+-1.6812 <s> ENABLE 0.0000
+-1.6812 <s> EXECUTE 0.0000
+-1.6812 <s> FORWARD 0.0000
+-1.6812 <s> FRONT 0.0000
+-1.6812 <s> GO 0.0000
+-1.6812 <s> HALT 0.0000
+-1.6812 <s> KLEPTO 0.0000
+-1.6812 <s> LAFTO 0.0000
+-1.6812 <s> LEAVO 0.0000
+-1.6812 <s> LIFT 0.0000
+-1.6812 <s> NEXT 0.0000
+-1.6812 <s> RECORD 0.0000
+-1.6812 <s> REVERSE 0.0000
+-1.6812 <s> RIGHT 0.0000
+-1.6812 <s> SHARP 0.0000
+-1.6812 <s> SPEED 0.0000
+-1.6812 <s> STOP 0.0000
+-1.6812 <s> STRAIGHT 0.0000
+-0.3010 BACKWARD </s> -0.3010
+-0.3010 BEGIN </s> -0.3010
+-0.3010 BEHIND </s> -0.3010
+-0.3010 BUZZER </s> -0.3010
+-0.3010 DISABLE </s> -0.3010
+-0.3010 DOWN </s> -0.3010
+-0.3010 ENABLE </s> -0.3010
+-0.3010 EXECUTE </s> -0.3010
+-0.3010 FORWARD </s> -0.3010
+-0.3010 FRONT </s> -0.3010
+-0.3010 GO DOWN 0.0000
+-0.3010 HALT </s> -0.3010
+-0.3010 KLEPTO </s> -0.3010
+-0.3010 LAFTO </s> -0.3010
+-0.3010 LEAVO </s> -0.3010
+-0.3010 LIFT UP 0.0000
+-0.3010 NEXT </s> -0.3010
+-0.3010 RECORD </s> -0.3010
+-0.3010 REVERSE </s> -0.3010
+-0.3010 RIGHT </s> -0.3010
+-0.3010 SHARP </s> -0.3010
+-0.3010 SPEED </s> -0.3010
+-0.3010 STOP </s> -0.3010
+-0.3010 STRAIGHT </s> -0.3010
+-0.3010 UP </s> -0.3010
+
+\3-grams:
+-0.3010 <s> BACKWARD </s>
+-0.3010 <s> BEGIN </s>
+-0.3010 <s> BEHIND </s>
+-0.3010 <s> BUZZER </s>
+-0.3010 <s> DISABLE </s>
+-0.3010 <s> DOWN </s>
+-0.3010 <s> ENABLE </s>
+-0.3010 <s> EXECUTE </s>
+-0.3010 <s> FORWARD </s>
+-0.3010 <s> FRONT </s>
+-0.3010 <s> GO DOWN
+-0.3010 <s> HALT </s>
+-0.3010 <s> KLEPTO </s>
+-0.3010 <s> LAFTO </s>
+-0.3010 <s> LEAVO </s>
+-0.3010 <s> LIFT UP
+-0.3010 <s> NEXT </s>
+-0.3010 <s> RECORD </s>
+-0.3010 <s> REVERSE </s>
+-0.3010 <s> RIGHT </s>
+-0.3010 <s> SHARP </s>
+-0.3010 <s> SPEED </s>
+-0.3010 <s> STOP </s>
+-0.3010 <s> STRAIGHT </s>
+-0.3010 GO DOWN </s>
+-0.3010 LIFT UP </s>
+
+\end\

@@ -1,0 +1,33 @@
+INFO
+====
+
+Utility Functions
+
+
+
+PUBLIC API
+===========
+
+
+Compute the Time Stamp.
+Returns: (Type: timestamp ) - the current timestamp when the function was called
+
+timeStamp computeTimeStamp()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Event based serial routine for reading serial data, responding to the Timestamp SYNC Character and Start SCA Loop character.
+The command format is <command>. 
+
+void serialEvent()
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Parses the command sent by the Host. It also performs necessary actions on the parsed data.
+Arguement: (Type: String) - c - command recieved from the Host
+
+void parseCommand(String c)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+

@@ -1,0 +1,179 @@
+### Description  
+
+This is the implementation of the Sensor interface of the OpenVCIK. It's APIs allow access to the various sensor connected to the Kit viz sonars, compass, encoders, and charge sense.
+ 
+
+### Class
+
+```C++
+Sensors
+```
+
+### Structures and enumerations
+
+```C++
+typedef struct SensorMask{
+  unsigned char mask1;          
+  unsigned char mask2;          
+}
+```
+Structure to hold sensor mask bytes  
+<b> Mask bytes: <b>  
+* Maks Byte 1 - ``` BITS :[7:0] -> mapping [SONAR1, SONAR2, SONAR3, SONAR4, SONAR5, SONAR6, SONAR7, SONAR8]```
+* Maks Byte 2 - ```BITS :[7:0] -> mapping [COMPASS, ALL_SONAR, CHARGE, X, X, SEND_DATA, X, X]```
+
+
+----
+```C++
+typedef struct timeStamp{
+  
+      long int h;            
+      long int m;
+      long int s;
+      unsigned long int ms;  
+};
+```
+structure for holding the timestamp data  
+<b> timestamp info: <b>  
+* h - Hours
+* m - Minutes
+* s - Seconds
+* ms - Milliseconds
+
+
+-----
+```C++
+enum Masks {MASK1, MASK2};    
+```
+Type ```Masks``` to represent Mask byte  
+
+-----
+
+
+### Public member functions
+
+
+
+```C+++
+Sensors()
+```
+Constructor - initializes the sensors
+
+-----
+
+```C++
+void setMasks(unsigned char m1, unsigned char m2)
+```
+
+Set/Reset sensor mask bytes
+<b> Arguements: </b>  
+* m1 (Type: ```char```) - mask byte 1
+* m2 - mask byte 2
+
+----
+
+```C++
+void setSpecificMask(Masks mask,unsigned char m)
+```
+
+Set/Reset specific mask byte
+<b> Arguements: </b>  
+* mask (Type: ```Mask```) - mask byte [MASK1 | MASK2]
+* m - mask byte  
+<i> Note: see enumeration Mask </i>
+
+----
+ 
+```C++ 
+void setSonarParameters(int maxdist, float factor)
+```
+
+Sets the parameters related to sonar sensors distance ranging   
+<b> Arguements: </b>  
+* maxdist (Type: ```Integer```) - maximum distance we want to range  
+* factor (Type: ```Float```) - is the conversion factor from time_of_travel of sound waves to actual distance   
+<i> Note: See sensor's specifications </i>
+
+----
+
+```C++
+void initSonars()
+```
+
+Initialize the pins for sonars
+
+-----
+
+```C++ 
+void readSonars()
+```
+
+Reads all the 8 sonars simultaneously and puts them in the ```sensorData``` array, also if ```SEND_DATA``` bit set, it sends the sensor data over the COMM i.e. to the Service Layer (see Framework section in wiki)
+
+-----
+
+```C++
+void setCompassTimeout(int timeout)
+```
+
+Set compass timeout. This is used while waiting for the I2C data to arrive from compass while reading compass. So if timeout then data is -1  
+<b> Arguments: </b>  
+* timeout - (Type - ```timeout```)time in milliseconds to wait for data from the compass sensor
+
+----
+
+```C++
+void readCompass()
+```
+
+Reads compass using I2C protocol making use of Arduino WIRE library, and puts them in the ```sensorData``` array, also if ```SEND_DATA``` bit set, it sends the sensor data over the COMM i.e. to the Service Layer
+
+----
+
+ 
+```C++
+void readCharge()
+```
+Senses the charge of the 12 V battery which powers the Kit in percentage puts it in the ```sensorData``` array, also if ```SEND_DATA``` bit set, it sends the data over the COMM i.e. to the Service Layer. It reads 0 if the batteries are completely discharged or when the batteries are not connected
+
+----
+
+```C++ 
+const int* getSensorData()
+```
+Access the complete sensor data by reference.  
+<b> Returns: </b> (Type: ```const int*```) - an array of 10 elements [1:8 sonar, compass, charge] by reference
+
+
+
+### Private member functions
+
+```C++
+void sendSonarData(timeStamp ts)
+```
+
+Writes the sensor data in CSV format to the Serial COMM in the format - "[Sensor Type]HH:MM:SS:MS,Sonardata1,..Sonardata8.". E.g. ```$S1:2:3:3,12,12,12,12,12,0,0,0.```  
+<b> Arguments: </b>  
+* ts (Type: ```timestamp```) - the timestamp
+
+----
+
+
+```C++
+void sendCompassData(timeStamp ts)
+```
+
+Writes the compass data to the Serial COMM in the format - "$[Sensor Type]HH:MM:SS:MS,compassdata.".  E.g. ```$S1:2:3:3,90.```  
+
+<b> Arguments: </b>  
+* ts (Type: ```timestamp```) - the timestamp
+
+----
+
+```C++
+void sendChargeData(timeStamp ts)
+```
+
+Writes the charge data to the Serial COMM in the format - "$[Sensor Type]HH:MM:SS:MS,chargedata.".  E.g. ```$S1:2:3:3,89.```
+<b> Arguments: </b>  
+* ts (Type: ```timestamp```) - the timestamp

@@ -1,0 +1,93 @@
+### Description
+
+This class implements reading and writing to/from serial ports with most common settings.  
+It allows :  
+* setting of the BAUD RATE for INPUT and OUTPUT
+* setting ```VMIN``` and ```VTIME``` parameters which are very important and crucial in case of Non-Canonical operation
+
+
+
+### Namespace
+
+```C++
+OpenVCIK
+```
+
+### Class
+
+```C++
+SerialComm
+```
+
+### Public member functions
+
+```C++
+SerialComm::SerialComm(string fname) 
+```
+
+Constructor - initializes variables.  
+<b> Argument: <b>  
+* fname (Type:```string```) - serial port name
+
+----
+```C++
+SerialComm::~SerialComm()
+```
+Destructor - closes the serial port.
+
+----
+```C++
+int Serial::openPort()
+```
+
+Opens the serial port provided in the constructor.  
+<b> Returns: </b> (Type: ```Integer```) - ```0```  - Successful; ```-1``` - could'nt open the serial port; ```-2``` - file openend but can't get the attributes
+
+-----
+```C++
+int SerialComm::setupPortParameters(speed_t in, speed_t out, int vmin, int vtime)
+```
+Sets serial port parameters.
+
+<b> Arguments: </b>  
+* in (Type: ```speed_t```) -  input speed i.e. baud rate
+* out (Type: ```speed_t```) - output speed
+* vmin (Type: ```Integer```) - minimum characters to wait before read call exits in units of ```10ms```
+* vtime (Type: ```Integer```) - minimum time to wait for each character  
+
+<b> Returns: </b> (Type: ```Integer```)  
+* -1  if ```tcgetattr()```  failed 
+* -2  if ```cfsetispeed()``` failed 
+* -3  if ```cfsetospeed()``` failed 
+* -4  if ```tcsetattr()``` failed 
+
+----
+```C++
+int SerialComm::writePort(string buf)
+```
+Write to serial port.
+<b> Argument: </b>   
+* buf (Type: string) - the string to be written
+
+<b> Returns: </b> (Type: ```Integer```) - number of bytes written and returns ```-1``` if nothing written  
+
+----
+```C++
+int SerialComm::readPort(string *buf, int size)
+```
+
+Read bytes from the serial port.  
+
+<b> Arguments: </b> 
+* *buff (Type: ```string```)  - pointer to the string where the read bytes will be stored
+* size (Type: ```integer```) - how many bytes to be read (Default : ```1```)  
+
+<b> Returns: </b> (Type: ```Integer```) - number of bytes read from the buffer; ```-1``` either nothing read or pointer passed was ```NULL```   
+
+----
+
+```C++
+bool SerialComm::flushPortIO()
+```
+
+Flushes the input and output buffer

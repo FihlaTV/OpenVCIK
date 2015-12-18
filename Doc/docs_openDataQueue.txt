@@ -1,0 +1,93 @@
+INFO
+=====
+
+This class implements a circular queue using dynamically allocated arrays. It has its own Mutex and Locking Mechanism for concurrent access by
+two threads. Not yet tested with more than two threads. Might work...
+
+It is internally used by the openVCIKServices class for queues and their management
+
+
+
+NAMESPACE
+=========
+
+OpenVCIK
+
+
+
+Class
+=======
+
+dataQueue 
+
+
+
+PUBLIC MEMBER FUNCTIONS
+=======================
+
+Contsructor - initiallizes the variables and allocates space for the queue 
+Arguements : (Type:Integer) - size (Size of the queue (Default size is 10))
+Throws: Integer - 1 if bad allocation exception was resulted in allocating the queue
+
+dataQueue::dataQueue(int size)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Destructor - releases the memory allocated. The Application Programmer need not worry about it.
+
+~dataQueue()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Returns the current Front Position (Type: Integer) of the queue. Can be used to debugging.
+
+inline int getFront()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Returns the current Rear Position (Type: Integer) of the queue. Can be used to debugging.
+
+inline int getRear();
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Returns the allocated size (Type: Integer) of the queue.
+
+inline int getSize()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Returns the actual size (Type: Integer) of the queue at the point of this function call
+
+inline int getQueueSize()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Puts the data in queue; If the queue is found to be full it is automatically cleared. 
+Argemuement: (Type: string) - data (the string to be put)
+Returns : (Type: Integer) -   0  - if successfull 
+						  -  -1  - If out of bound (this will never happen. Just for safety)  
+ 
+int dataQueue::put(string data)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Gets data from the queue.
+Returns: (Type: string) If data preset - returns data from the queue 
+         				If queue empty - returns null
+Arguements:(Type: Integer) -    0 - return data in a circular queue get fashion
+               					1 - returns the current data; doesn't effect the queue
+ 								(Defualt - 0)
+
+string dataQueue::get(int  current)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Clears the queue
+
+void dataQueue::clear()
+
+--------------------------------------------------------------------------------------------------------------------------------------------

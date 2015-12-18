@@ -1,0 +1,99 @@
+
+###Description
+ GPIO Interface - This interface allows manipulation of OpenVCI Kit's GPIO pins. 
+
+### Class
+
+```C++
+GPIO
+```
+
+### Structures and enumerations
+
+```C++
+enum Type{DIGITAL_IN = 0, DIGITAL_IN_PULLUP, DIGITAL_OUT}
+```
+
+Type - Pin mode types 
+* DIGITAL_IN - digital input mode
+* DIGITAL_IN_PULLUP - digital input with pullup
+* DIGITAL_OUT - digital output mode
+
+### Public member functions
+
+```C++
+GPIO()
+```
+Constructor - initializes the pins and other variables  
+
+-----
+
+```C++
+void setType(byte pin, Type type)
+```
+Allows setting of the type i.e. INPUT or OUTPUT of an individual GPIO pin  
+<b>Arguments: </b>  
+* pin (Type: ```byte```) - the GPIO pin number 
+* type(Type: ```Type```) - type to be set for the pins  
+
+----
+
+```C++
+
+void setType(byte from, byte to, Type type)
+```
+
+Allows setting of the type i.e. INPUT or OUTPUT of a range of GPIO pins
+<b>Arguments </b>  
+* from (Type: ```byte```) - starting GPIO pin number
+* to (Type: ```byte```) - ending GPIO pin number
+* type(Type: ```Type```) - type to be set for the pins
+
+-----
+
+ ```C++
+
+void writeDigital(byte from, byte to, boolean value)
+```
+
+Set/Reset a range of GPIO pins in digital mode
+<b>Arguments: </b>  
+* from (Type: ```byte```) - starting GPIO pin number
+* to (Type: ```byte```) - ending GPIO pin number
+* value(Type: ```boolean```) - High / Low
+
+-----
+
+```C++
+
+void writeDigital(byte pin, boolean value)
+```
+Set/Reset an individual GPIO in digital mode
+<b>Arguments: </b>  
+* pin (Type: ```byte```) - the GPIO pin number
+* value (Type: ```boolean```) - High / low
+
+-----
+
+```C++
+
+void writePWM(byte from, byte to, byte value)
+```
+
+Set/Reset a range of GPIO pins in PWM mode
+<b>Arguments: </b>  
+* from (Type: ```byte```) - starting GPIO pin number
+* to (Type: ```byte```) - ending GPIO pin number
+* value(Type: ```byte```) - PWM Value (0-255)
+
+-----
+
+```C++
+
+void writePWM(byte pin, boolean value)
+```
+
+Set/Reset an individual GPIO in PWM mode
+<b>Arguments: </b>  
+* pin (Type: ```byte```) - the GPIO pin number
+* value (Type: ```byte```) - PWM Value (0-255)

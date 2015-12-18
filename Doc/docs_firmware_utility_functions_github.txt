@@ -1,0 +1,29 @@
+### Description
+
+Some utility functions for the Firmware
+
+### Public member functions
+
+
+```C++
+timeStamp computeTimeStamp()
+```
+
+Compute the Time Stamp.  
+<b> Returns: </b> (Type: timestamp ) - the current timestamp when the function was called
+
+-----
+```C++
+void serialEvent()
+```
+
+Event based serial routine for reading serial data, responding to the timestamp SYNC character and start the SCA Loop character. The command format is ```<command>.``` 
+
+-----
+
+```C++
+void parseCommand(String c)
+```
+
+Parses the command sent by the Host. It also performs necessary actions on the parsed data.
+* c (Type: String) -  command recieved from the Host

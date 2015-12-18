@@ -1,0 +1,24 @@
+<s> FRONT </s>
+<s> STRAIGHT </s>
+<s> REVERSE </s>
+<s> BEHIND </s>
+<s> KLEPTO </s>
+<s> FORWARD </s>
+<s> BACKWARD </s>
+<s> LEAVO </s>
+<s> LAFTO </s>
+<s> RIGHT </s>
+<s> STOP </s>
+<s> HALT </s>
+<s> NEXT </s>
+<s> RECORD </s>
+<s> ENABLE </s>
+<s> DISABLE </s>
+<s> BEGIN </s>
+<s> EXECUTE </s>
+<s> DOWN </s>
+<s> SPEED </s>
+<s> SHARP </s>
+<s> LIFT UP </s>
+<s> GO DOWN </s>
+<s> BUZZER </s>

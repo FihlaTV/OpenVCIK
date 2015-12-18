@@ -1,0 +1,148 @@
+INFO
+=====
+
+This Class - Sensors , bundles all implementaions related to the Sensors of the OpenVCIK viz. SONARS, COMPASS, ENCODERS, and CHARGE. 
+ 
+
+
+
+CLASS
+=====
+
+Sensors
+
+
+STRUCTURES AND ENUMS
+=====================
+
+
+Structure to hold sensor mask bytes
+Maks Byte 1 -  BITS :[7:0] -> mapping [SONAR1, SONAR2, SONAR3, SONAR4, SONAR5, SONAR6, SONAR7, SONAR8]
+Maks Byte 2 -  BITS :[7:0] -> mapping [COMPASS, ALL_SONAR, CHARGE, X, X, SEND_DATA, X, X]
+
+typedef struct SensorMask{
+  unsigned char mask1;          
+  unsigned char mask2;          
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+typedef struct timeStamp{
+  
+      long int h;            
+      long int m;
+      long int s;
+      unsigned long int ms;  
+};
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+enum Masks {MASK1, MASK2};    
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+PUBLIC MEMEBER FUNCTIONS
+========================
+
+
+Constructor 
+
+Sensors()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Set/Reset sensor mask bytes
+Arguements: (Type: char) - m1 - mask byte 1
+						 - m2 - mask byte 2
+
+void setMasks(unsigned char m1, unsigned char m2)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Set/Reset specific mask byte
+Arguements: (Type: mask) - mask - maks byte [MASK1 | MASK2]
+						 - m - mask byte
+
+void setSpecificMask(Masks mask,unsigned char m)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Sets the parameters related to sonar sensors distance ranging 
+ Arguements: (Type: Integer) - maxdist - maximum distance we want to range
+ 			 (Type: Float)	 - factor - is the conversion factor from time_of_travel of sound waves to actual distance. See sensor's specifications
+ 
+ 
+void setSonarParameters(int maxdist, float factor)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Initiallize the pins for sonars
+
+void initSonars()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Reads all the 8 sonars simultaneously and puts them in the sensorData array, also if SEND_DATA bit set, it sends the sensor data over the COMM
+i.e. to the SERVICE LAYER
+ 
+void readSonars()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Set compass timeout. This is used while waiting for the I2C data to arrive from compass while reading compass. So if timeout then data is -1
+
+void setCompassTimeout(int timeout)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Reads compass using I2C protocol making use of arduino WIRE library, and puts them in the sensorData array, also if SEND_DATA bit set, it sends 
+the sensor data over the COMM i.e. to the SERVICE LAYER
+
+void readCompass()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Senses the charge of the 12 V battery which powers the Kit, in percentage equivalent i.e. percentage charge left and puts it in the sensorData
+array, also if SEND_DATA bit set, it sends the data over the COMM i.e. to the SERVICE LAYER. Data is 0 if completely discharged or batteries 
+not connected
+ 
+void readCharge()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Access the complete sensor data by reference. 
+Returns: (Type: const int*) - an array of 10 elements [1:8 sonar, compass, charge] by reference
+ 
+const int* getSensorData()
+
+
+
+
+PRIVATE MEMBER FUNCTIONS
+========================
+
+Writes the sensor data in CSV format to the Serial COMM in the formwat - $[Sensor Type]HH:MM:SS:MS,Sonardata1,..Sonardata8. 
+E.g. $S1:2:3:3,12,12,12,12,12,0,0,0.
+
+void sendSonarData(timeStamp ts)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Writes the compass data to the Serial COMM in the formwat - $[Sensor Type]HH:MM:SS:MS,compassdata.  E.g. $S1:2:3:3,90.
+
+void sendCompassData(timeStamp ts)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Writes the charge data to the Serial COMM in the formwat - $[Sensor Type]HH:MM:SS:MS,chargedata.  E.g. $S1:2:3:3,89.
+
+void sendChargeData(timeStamp ts)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+

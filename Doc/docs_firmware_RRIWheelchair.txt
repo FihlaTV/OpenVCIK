@@ -1,0 +1,140 @@
+INFO
+=====
+
+
+This class bundles all the motion control including the PI-Controller for motors of the test wheelchair platform (RRI WHEELCHAIR) used for demonstration.
+Note: It interfaces with Motor Driver - NexRobotics' Hercules 6V-36V 16Amp Motor Driver.
+
+CLASS
+===== 
+
+RRIWheelchair
+
+
+
+STRUCTURES AND ENUMS
+====================
+
+
+
+Structures for Motor Driver related information   
+
+struct motorDrive{       
+
+    byte motor1_IN1;
+    byte motor1_IN2;
+    byte motor1_PWM;
+    
+    byte motor2_IN1;
+    byte motor2_IN2;
+    byte motor2_PWM;  
+}
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Strucuture holding the PWM values of left and motors
+
+struct motionParamsPWM{   
+    byte left; 
+    byte right;
+};
+ 
+--------------------------------------------------------------------------------------------------------------------------------------------    
+
+enum stopType{ FAST, FREE};
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+PUBLIC MEMBER FUNCTION
+======================
+
+Constructor- initiallizes variables and other parameters. See code.
+
+RRIWheelchair()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Sets/Resets PID control flag
+
+void setPIControlFlag(boolean flag)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Set the pwm values expelcitly. This funcion is used to give direct control to the user tasks in the framework of the PWM values of motors
+Arguements: (Type: byte) - left - PWM value for the left motor
+						 - right - PWM value for the right motor
+
+void setPWMValues(byte left, byte right)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Actuates the motors depending upon the set PWM values using the setPWMValues() function
+
+void actuate()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Set the PI Controller gains
+
+void setGains(float Kp, float Ki)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Sets the PWM parameters used by the control procedur
+Arguements: (Type: Integer) - level - level PWM Value
+							- dev - deviation from the level value
+
+void setPWMParameters(int level, int dev)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Setting the MODE of the wheelchair that is STOP, FORWARD , LEFT OR RIGHT SPIN      
+Arguements : (Type:integer) - m - wheelchair Mode  [-1 - STOP, 0-for, 1-lspin , 2-rspin ]               
+
+void setWheelchairMode(int m)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Get the current mode of the wheelchair
+Returns: (Type:Integer) - the current wheelchair mdoe
+
+int getWheelchairMode()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Stops the wheelchari and set the wheelchair mode to -1. 
+Arguements: (Type:stopType) - type - FAST|FREE, FAST locks the motors and FREE just cuts the signal
+
+void stopWheelchair(stopType type)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Close-loop heading control of the wheelchari using PI controller using the compass readings
+Arguements: (Type: Integer) - ctrlTime - control frequency
+							- wheelchairHeading - current wheelchair heading i.e. angle
+							- desiredHeading - desired heading
+
+void control(int ctrlTime, int wheelchairHeading, int desiredHeading)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+PRIVATE MEMBER FUNCTION
+========================
+
+Initiallizes the motor drivers
+
+void initDrive()
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+

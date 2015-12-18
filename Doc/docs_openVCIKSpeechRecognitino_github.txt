@@ -1,0 +1,58 @@
+### Description
+These APIs are implemented for speech recognition using the open-source [Pocketsphinx](https://github.com/cmusphinx/pocketsphinx) Library.   
+
+### Namespace
+```C++
+OpenVCIK
+```
+
+### Public member functions
+
+```C++
+int setupMic()
+```
+
+Setups the speech recognition by looking for MIC, then Initiallizing VAD (voice activity detection) and then CALIBRATING the VAD (Voice Activity Detection).  
+
+<b> Returns: </b> (Type: ```Integer```) :  
+* ```0``` - Successful
+* ```-1``` - Mic not found
+* ```-2``` - VAD not initialized
+* ```-3``` - Recording failed         
+* ```-4``` - VAD could not be calibrated
+
+----
+
+```C++
+static void recognize_from_microphone(string* s)
+```
+
+Speech command recognition function. Uses number of speech samples processed as a threshold to stop listening and start final decoding of the speech signal i.e. final hypothesis generation.
+
+<b> Argument: </b>  
+* s (Type: ```string```) - the string variable which is loaded with the recognized command
+
+-----
+
+```C++
+void closeRecording()
+```
+
+Closes the speech sample reading session.
+
+-----
+
+```C++
+int initSpeechRecog(string hmm, string lm, string dict)
+```
+
+Initializes pocketsphinx.
+
+<b> Arguments: <b>  
+* hmm  (type: ```string```) - the absolute path of the hidden markov model folder for the language
+* lm (type: ```string```)   - the absolute path of the language model file for the language (```.lm```)
+* dict (type: ```string```)   - the absolute path dictionary file for the language (```.dict```)
+
+<b> Returns: </b> (Type:```Integer```):  
+* ```-1``` - configuration error
+* ```-2``` - Initialization error

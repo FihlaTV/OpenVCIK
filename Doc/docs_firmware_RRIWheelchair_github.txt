@@ -1,0 +1,139 @@
+#Welcome to the openVCIK wiki!
+
+
+### Description
+This class bundles all the motion control including the PI-Controller for motors of the test wheelchair platform (RRI wheelchair) used for demonstration. 
+
+
+### Class 
+
+```C++
+RRIWheelchair
+```
+
+### Structures and enumerations 
+  
+
+```C++
+struct motorDrive{       
+
+    byte motor1_IN1;
+    byte motor1_IN2;
+    byte motor1_PWM;
+    
+    byte motor2_IN1;
+    byte motor2_IN2;
+    byte motor2_PWM;  
+}
+```
+Structure for holding the _NexRobotics Hercules 6V-36V 16Amp Motor Driver_ interfacing parameters i.e. pins 
+
+----
+
+```C++
+struct motionParamsPWM{   
+    byte left; 
+    byte right;
+}
+```
+
+Structure holding the PWM values of left and motors
+
+----    
+
+```C++
+enum stopType{ FAST, FREE};
+```
+
+stopType - Motor stop type
+* FAST - stops the motor immediately
+* FREE - stops the motor in a free fashion i.e. the motor takes it's time to stop
+
+
+### Public member functions
+```C++
+RRIWheelchair()
+```
+Constructor- initializes variables and other parameters. See code for details.
+
+-----
+
+```C++
+void setPIControlFlag(boolean flag)
+```
+
+Sets/Resets PID control flag
+
+-----
+```C++
+void setPWMValues(byte left, byte right)
+```
+Set the pwm values expelcitly. This funcion is used to give direct control to the user tasks in the framework of the PWM values of motors
+* left (Type: byte) - PWM value for the left motor
+* right (Type: byte)- PWM value for the right motor
+
+----
+
+```C++
+void actuate()
+```
+Actuates the motors depending upon the set PWM values using the setPWMValues() function
+
+-----
+```C++
+void setGains(float Kp, float Ki)
+```
+
+Set the PI Controller gains
+
+----
+
+```C++
+void setPWMParameters(int level, int dev)
+```
+Sets the PWM parameters used by the control procedure
+* level (Type: Integer) - level PWM Value
+* dev - deviation from the level value
+
+----
+```C++
+void setWheelchairMode(int m)
+```
+Setting the MODE of the wheelchair that is STOP, FORWARD , LEFT OR RIGHT SPIN      
+* m (Type:integer) - wheelchair Mode  [-1-stop, 0-forward, 1-left spin , 2-right spin]               
+
+----
+```C++
+int getWheelchairMode()
+```
+Get the current mode of the wheelchair  
+<b> Returns </b> (Type:Integer) - the current wheelchair mdoe
+
+------
+
+```C++
+void stopWheelchair(stopType type)
+```
+
+Stops the wheelchari and set the wheelchair mode to -1. 
+* type (Type:stopType) -  FAST|FREE, FAST locks the motors and FREE just cuts the signal
+
+-----
+
+
+```C++
+void control(int ctrlTime, int wheelchairHeading, int desiredHeading)
+```
+Close-loop heading control of the wheelchari using PI controller using the compass readings
+* ctrlTime (Type: Integer) -  control frequency
+* wheelchairHeading (Type: Integer)- current wheelchair heading i.e. angle
+* desiredHeading (Type: Integer)- desired heading
+
+-----
+
+### Private member functions
+```C++
+void initDrive()
+```
+Initializes the motor drivers
+
