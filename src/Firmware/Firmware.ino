@@ -993,6 +993,7 @@ int desiredHeading = 0;
 boolean isControlRequired = false;       // this will be used to decide if control should be executed.
 boolean isCommandAvailable = false;          
 int controlFrequency = 0;                // control frequency in milliseconds
+boolean suppressWheelchair = false;      // flag to control active/suppress of wheelchair interface
 
 const int *sensorReadings;               // will store the sensor data [sonar1:8,compass,charge]
 boolean startSCALoop = false;
@@ -1304,6 +1305,15 @@ void parseCommand(String c){
          blinkLED();
     }   
 
+    // command to activate or suppress wheelchair interface. Note that by default the wheelchair interface is active just that we suppress it by this command. 
+    // and when ever required get back the control.  e.g. wis == suppress it , wia == activate it - default;   
+    else if(c[0] == 'w' && c[1] == 'i'){
+          if(c[2] == 's' && !suppressWheelchair)            
+            suppressWheelchair = true;
+          else if(c[2] == 'a' && suppressWheelchair)            
+            suppressWheelchair = false;          
+    }
+
   cmd = "";              //once command parsed make it NULL
   isCommandAvailable= false;   //
 
@@ -1320,7 +1330,7 @@ void setup(){
   Wire.begin(); 
   pinMode(7,OUTPUT);                // this is used to set the LED pin output-- JUST FOR TESTING
   controlFrequency = 200;          // 200 ms default
-  //wheelchair.initDrive();
+  
   sensors.initSonars(); 
   sensors.setSonarParameters(100,0.0172); 
   sensors.setCompassTimeout(11); 
@@ -1371,8 +1381,7 @@ void loop(){
          sensorReadings = sensors.getSensorData();
         
         /* Communicate Loop -- 
-         * Parse command and communicate the arguements to relevant interfaces viz RRIWheelchair, GPIO, Sensor, PID etc.
-         *
+         * Parse command and communicate the arguements to relevant interfaces viz RRIWheelchair, GPIO, Sensor, PID etc.       
          * Note: Sensor data is communicated in right where it is sensed
          */
         
@@ -1380,20 +1389,23 @@ void loop(){
           parseCommand(cmd);
         }
         
-        /* Control Phase */
-        
-        controlTime = millis() - prevTime;                        // read time elapsed to check whether control should be done or not
-        if(controlTime > controlFrequency && isControlRequired){
-          
-              wheelchair.control(0.200, sensorReadings[8], desiredHeading);
-              prevTime = millis();
+        // if wheelchair interface required only then do this else no...By default this works.
+        if(!suppressWheelchair){
+            /* Control Phase */
+            
+            controlTime = millis() - prevTime;                        // read time elapsed to check whether control should be done or not
+            if(controlTime > controlFrequency && isControlRequired){
+              
+                  wheelchair.control(0.200, sensorReadings[8], desiredHeading);
+                  prevTime = millis();
+            }
+            
+            
+            /* Actuation Phase */
+            
+            wheelchair.actuate();
+            delay(100);
         }
-        
-        
-        /* Actuation Phase */
-        
-        wheelchair.actuate();
-        delay(100);
     
     }// end of 
 }
